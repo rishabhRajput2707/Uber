@@ -1,17 +1,64 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState  , useContext} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserDataContext } from '../context/UserContext';
+import { Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Userlogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [userData, setUserData] = useState({})
 
-  const sumbmitHandler = (e)=>{
+  const {user , setUser} = useContext(UserDataContext);
+  const navigate = useNavigate()
+
+  const sumbmitHandler = async(e)=>{
     e.preventDefault();
-    setUserData({
+    const userData = {
       email: email,
       password:password
-    })
+    }
+
+    // try{
+    //   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`) 
+
+    // if(response.status === 200){
+    //   const data = response.data
+    //   setUser(data.user)
+    //   navigate('/home')
+    // }
+    // }catch(error){
+    //   console.log('login failed', error);
+      
+    // }
+
+
+
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData, {
+      headers: {
+        'Content-Type': 'application/json', // Ensure the correct Content-Type
+      },
+    });
+
+    if (response.status === 200) {
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem('token' , data.token)
+      navigate('/home');
+    }
+  } catch (error) {
+    console.error('Login failed:', error.response?.data?.errors || error.message);
+    // Display error messages to the user
+    if (error.response?.data?.errors) {
+      error.response.data.errors.forEach((err) => {
+        alert(`${err.path}: ${err.msg}`); // Show validation errors to the user
+      });
+    }
+  }
+
+
+    
     
     setEmail('');
     setPassword('')
