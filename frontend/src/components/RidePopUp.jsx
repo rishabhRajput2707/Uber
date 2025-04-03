@@ -1,16 +1,21 @@
 import React from 'react'
 
-const LookingForDriver = (props) => {
+const RidePopUp = (props) => {
     return (
         <div>
             <h5 className='p-1 text-center w-[93%] absolute top-0  text-center ' onClick={() => {
-                props.setVehicleFound(false)   
+                props.setRidePopUpPanel(false)
             }}>
                 <i className="ri-arrow-down-wide-line text-3xl text-gray-200"></i> </h5>
-            <h3 className='text-2xl font-semibold mb-5'>Looking For A Driver</h3>
-
+            <h3 className='text-2xl font-semibold mb-5'>New Ride Availble!</h3>
+            <div className='flex items-center justify-between mt-4 p-3 bg-yellow-400 rounded-lg mt-4'>
+                <div className='flex items-center gap-3 '>
+                    <img className='h-12 w-12 object-cover  rounded-full' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUueKMdnTNO_ItCNq3y606v5XXTSbTibol2Q&s" alt="" />
+                    <h2 className='text-lg font-medium '>Harshita Patel</h2>
+                </div>
+                <h5 className='text-lg font-semibold'>2.2 KM</h5>
+            </div>
             <div className='flex  flex-col justify-center items-center'>
-                <img className='h-[10%] w-[30%]' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9Zf5_MJBYbsWV5-3cOwpc2Pl9wy9jjkMZbA&s" alt="" />
                 <div className='w-full'>
                     <div className='flex items-center gap-5 p-3 border-b-2'>
                         <i className="text-lg ri-map-pin-user-fill"></i>
@@ -38,10 +43,22 @@ const LookingForDriver = (props) => {
                         </div>
                     </div>
                 </div>
+                <div className='flex w-full mt-5 items-center justify-between '>
+                    <button onClick={() => {
+                        props.setRidePopUpPanel(false)
+                    }} className='bg-gray-300 text-gray-700 font-semibold p-2 px-10 rounded-lg'>
+                        Ignore
+                    </button>
+                    <button onClick={() => {
+                        props.setConfirmRidePopUpPanel(true)
+                    }} className=' bg-green-600 text-white font-semibold p-2 px-10 rounded-lg'>
+                        Accept
+                    </button>
 
+                </div>
             </div>
         </div>
     )
 }
 
-export default LookingForDriver
+export default RidePopUp
